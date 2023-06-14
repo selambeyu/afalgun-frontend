@@ -1,15 +1,24 @@
+import { useEffect } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { MainNavbar } from "../layouts/main-navbar";
 
+// import { MainLayout } from '../components/main-layout';
 import { MainLayout } from "../layouts/main-layout";
 
+import { gtm } from "../lib/gtm";
+
 const Home = () => {
+  useEffect(() => {
+    gtm.push({ event: "page_view" });
+  }, []);
+
   return (
     <>
-      {/* <MainNavbar/> */}
-      <Head>CreateNext app</Head>
+      <Head>
+        <title>Material Kit Pro</title>
+      </Head>
+      <main>
+        <p>home</p>
+      </main>
     </>
   );
 };
