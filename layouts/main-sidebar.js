@@ -62,14 +62,14 @@ export const MainSidebar = (props) => {
             Post or report
           </MainSidebarLink>
         </NextLink>
-        <NextLink href="/authentication/login" passHref>
+        <NextLink href="/auth/login" passHref>
           <MainSidebarLink
             color="textSecondary"
             underline="none"
             variant="subtitle2"
           >
             <Button
-              component="a"
+            
               fullWidth
               sx={{ mt: 1.5 }}
               target="_blank"

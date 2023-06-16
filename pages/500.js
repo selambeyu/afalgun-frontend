@@ -77,7 +77,7 @@ const ServerError = () => {
               passHref
             >
               <Button
-                component="a"
+               
                 variant="outlined"
               >
                 Back to Dashboard

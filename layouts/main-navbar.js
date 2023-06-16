@@ -6,15 +6,19 @@ import {
   Button,
   Container,
   IconButton,
-
   Toolbar,
   Typography,
+  Avatar,
 } from "@mui/material";
 import { Menu as MenuIcon } from "../icons/menu";
+import { usePopover } from "../hooks/use-popover";
+import { useAuth } from "../context/AuthContext";
 // import { Logo } from "./logo";
 
 export const MainNavbar = (props) => {
   const { onOpenSidebar } = props;
+  const { isAuthenticated } = useAuth();
+  const accountPopover = usePopover();
 
   return (
     <AppBar
@@ -29,7 +33,6 @@ export const MainNavbar = (props) => {
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ minHeight: 64 }}>
-         
           <Box sx={{ flexGrow: 1 }} />
           <IconButton
             color="inherit"
@@ -52,14 +55,12 @@ export const MainNavbar = (props) => {
             }}
           >
             <Link href="/" passHref>
-             
               <Typography
                 sx={{ ml: 2 }}
                 color="textSecondary"
                 underline="none"
                 variant="subtitle2"
               >
-               
                 Home
               </Typography>
             </Link>
@@ -83,10 +84,9 @@ export const MainNavbar = (props) => {
                 how to post ?{" "}
               </Typography>
             </Link>
-            <Link href="/auth/login" passHref>
-              
+            {/* {!isAuthenticated && ( */}
+              <Link href="/auth/login" passHref>
                 <Button
-                
                   size="medium"
                   sx={{ ml: 2 }}
                   target="_blank"
@@ -94,8 +94,22 @@ export const MainNavbar = (props) => {
                 >
                   Login
                 </Button>
-             
-            </Link>
+              </Link>
+            {/* )} */}
+
+            {/* {isAuthenticated && (
+              <Avatar
+                onClick={accountPopover.handleOpen}
+                ref={accountPopover.anchorRef}
+                sx={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                }}
+                src="/assets/avatars/avatar-anika-visser.png"
+              />
+            )} */}
+
             <Link href="/browse" passHref>
               <Typography
                 color="textSecondary"
@@ -109,7 +123,6 @@ export const MainNavbar = (props) => {
             <Link href="/docs/welcome" passHref>
               <Typography
                 color="textSecondary"
-                
                 sx={{ ml: 2 }}
                 underline="none"
                 variant="subtitle2"
@@ -118,7 +131,7 @@ export const MainNavbar = (props) => {
               </Typography>
             </Link>
             {/* <Button
-              component="a"
+            
               href="https://material-ui.com/store/items/devias-kit-pro"
               size="medium"
               sx={{ ml: 2 }}

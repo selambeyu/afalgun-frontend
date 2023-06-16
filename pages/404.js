@@ -77,7 +77,7 @@ const NotFound = () => {
               passHref
             >
               <Button
-                component="a"
+               
                 variant="outlined"
               >
                 Back to Dashboard

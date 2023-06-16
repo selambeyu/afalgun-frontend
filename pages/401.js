@@ -77,7 +77,7 @@ const AuthorizationRequired = () => {
               passHref
             >
               <Button
-                component="a"
+               
                 variant="outlined"
               >
                 Back to Dashboard

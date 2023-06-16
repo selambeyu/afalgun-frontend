@@ -2,17 +2,21 @@ import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Alert, Box, Button, FormHelperText, TextField } from '@mui/material';
-// import { useAuth } from '../../hooks/use-auth';
-// import { useMounted } from '../../hooks/use-mounted';
+
+
+import { useAuth } from '../../context/AuthContext';
+
 
 export const JWTLogin = (props) => {
-//   const isMounted = useMounted();
   const router = useRouter();
-//   const { login } = useAuth();
+  // const {signIn}  = useAuth();
+  const { logIn ,isAuthenticated} = useAuth();
+
+
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123!',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -27,22 +31,25 @@ export const JWTLogin = (props) => {
         .required('Password is required')
     }),
     onSubmit: async (values, helpers) => {
-    //   try {
-    //     await login(values.email, values.password);
+      try {
+        console.log('isAthen',isAuthenticated)
+        const userCredential = await logIn(values.email, values.password);
+        console.log("user credential", userCredential._token);
+        const user = userCredential.user;
+        console.log("what is the respons here", user.uid);
+        sessionStorage.setItem("userToken", user.accessToken);
 
-    //     if (isMounted()) {
-    //       const returnUrl = router.query.returnUrl || '/dashboard';
-    //       router.push(returnUrl).catch(console.error);
-    //     }
-    //   } catch (err) {
-    //     console.error(err);
+        // Set user data in local storage
+        localStorage.setItem("userData", JSON.stringify(user));
+        router.push("/");
 
-    //     if (isMounted()) {
-    //       helpers.setStatus({ success: false });
-    //       helpers.setErrors({ submit: err.message });
-    //       helpers.setSubmitting(false);
-    //     }
-    //   }
+        console.log("isAuthenticated",isAuthenticated)
+      } catch (err) {
+        console.log("error", err);
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+      }
     }
   });
 
@@ -94,19 +101,7 @@ export const JWTLogin = (props) => {
           Log In
         </Button>
       </Box>
-      <Box sx={{ mt: 2 }}>
-        <Alert severity="info">
-          <div>
-            Use
-            {' '}
-            <b>demo@devias.io</b>
-            {' '}
-            and password
-            {' '}
-            <b>Password123!</b>
-          </div>
-        </Alert>
-      </Box>
+  
     </form>
   );
 };
