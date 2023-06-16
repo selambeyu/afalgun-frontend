@@ -3,25 +3,18 @@ import Head from "next/head";
 import { endOfDay, startOfDay } from "date-fns";
 import {
   Box,
-  Button,
+ 
   Container,
-  FormControlLabel,
-  Grid,
-  Switch,
-  Typography,
+  
   Tab,
   Tabs,
   useMediaQuery,
-  Divider,
+ 
   Stack,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { invoiceApi } from "../../api/invoice-api";
 import { MainLayout } from "../../../layouts/main-layout";
-// import { AuthGuard } from '../../../components/authentication/auth-guard';
-// import { DashboardLayout } from '../../../components/dashboard/dashboard-layout';
-// import { InvoiceListFilters } from '../../../components/dashboard/invoice/invoice-list-filters';
-// import { InvoiceListTable } from '../../../components/dashboard/invoice/invoice-list-table';
 import { useMounted } from "../../../hooks/use-mounted";
 import { Filter as FilterIcon } from "../../../icons/filter";
 import { Plus as PlusIcon } from "../../../icons/plus";

@@ -19,7 +19,7 @@ import { styled } from "@mui/material/styles";
 // import { DatePicker } from '@mui/lab';
 import { Search as SearchIcon } from "../../icons/search";
 import { X } from "../../icons/x";
-import { Scrollbar } from "../../components/scrollbar";
+
 
 const customers = [
   "Blind Spots Inc.",
@@ -193,7 +193,7 @@ export const PostListFilters = (props) => {
           mb:2
         }}
       >
-        {/* <Scrollbar sx={{ maxHeight: 200 }}> */}
+      
           <FormGroup
             sx={{
               py: 1,
@@ -214,7 +214,7 @@ export const PostListFilters = (props) => {
               />
             ))}
           </FormGroup>
-        {/* </Scrollbar> */}
+    
       </Box>
       {/* <FormControlLabel
         control={
