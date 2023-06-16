@@ -20,7 +20,6 @@ import { Filter as FilterIcon } from "../../../icons/filter";
 import { Plus as PlusIcon } from "../../../icons/plus";
 import { gtm } from "../../../lib/gtm";
 import { PostListFilters } from "../../../components/post/post-list-filters";
-import { LostAndFoundComponent } from "../../../components/post/lostandfound";
 
 const applyFilters = (invoices, filters) =>
   invoices.filter((invoice) => {
