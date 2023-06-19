@@ -1,6 +1,5 @@
 [build]
   command = "npm run build && npm run export"
-  publish = "/opt/build/repo/out"
   environment = { 
     NEXT_PUBLIC_FIREBASE_API_KEY = "AIzaSyBrYO3H10JRMue_JmXWUG1ZailSY3EJJTU",
     NEXT_PUBLIC_FIREBASE_APP_ID = "1:1012357491167:web:926c4584af6bb62b79fc6a",
