@@ -110,7 +110,7 @@ export const MainNavbar = (props) => {
               />
             )} */}
 
-            <Link href="/browse" passHref>
+            {/* <Link href="/browse" passHref>
               <Typography
                 color="textSecondary"
                 sx={{ ml: 2 }}
@@ -129,7 +129,7 @@ export const MainNavbar = (props) => {
               >
                 Documentation
               </Typography>
-            </Link>
+            </Link> */}
             {/* <Button
             
               href="https://material-ui.com/store/items/devias-kit-pro"
