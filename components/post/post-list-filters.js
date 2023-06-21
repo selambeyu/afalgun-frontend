@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef ,useState} from "react";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -13,22 +13,33 @@ import {
   Switch,
   TextField,
   Typography,
-  useMediaQuery,
+  FormControl,
+  InputLabel,
+  Select,
+  useMediaQuery,MenuItem,FormHelperText, Menu
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // import { DatePicker } from '@mui/lab';
 import { Search as SearchIcon } from "../../icons/search";
 import { X } from "../../icons/x";
 
-
 const customers = [
-  "Blind Spots Inc.",
-  "Dispatcher Inc.",
-  "ACME SRL",
-  "Novelty I.S",
-  "Beauty Clinic SRL",
-  "Division Inc.",
+  "Female Baby",
+  "Male Baby",
+  "Female Kid",
+  "Male Kid",
+  "Girl",
+  "Boy",
+  "Woman",
+  "Man",
+  "Old Woman",
+  "Old Man",
+  "Physically Challenged",
 ];
+const date_posted = ["24 hours", "3 days", "7 days", "30 days"];
 
 const FiltersDrawerDesktop = styled(Drawer)({
   flexShrink: 0,
@@ -60,6 +71,11 @@ export const PostListFilters = (props) => {
     ...other
   } = props;
   const queryRef = useRef(null);
+  const [age, setAge] = useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   const handleQueryChange = (event) => {
@@ -145,7 +161,7 @@ export const PostListFilters = (props) => {
         </IconButton>
       </Box>
       <Box component="form" onSubmit={handleQueryChange}>
-        <TextField
+        {/* <TextField
           defaultValue=""
           fullWidth
           inputProps={{ ref: queryRef }}
@@ -158,29 +174,35 @@ export const PostListFilters = (props) => {
           }}
           label="Search"
           placeholder="Search by invoice number"
-        />
+        /> */}
+
+        <FormControl >
+          <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
+          <Select
+          fullWidth
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={age}
+            label="Age"
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>1-17</MenuItem>
+            <MenuItem value={20}>18-25</MenuItem>
+            <MenuItem value={30}>26-30</MenuItem>
+            <MenuItem >31-40</MenuItem>
+            <MenuItem>41-50</MenuItem>
+            <MenuItem>51-60</MenuItem>
+            <MenuItem>61-80</MenuItem>
+            <MenuItem>81-100</MenuItem>
+          </Select>
+          {/* <FormHelperText>With label + helper text</FormHelperText> */}
+        </FormControl>
       </Box>
       <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
-        Issue date
-      </Typography>
-      <Stack spacing={2} sx={{ mt: 2 }}>
-        {/* <DatePicker
-          inputFormat="dd/MM/yyyy"
-          label="From"
-          onChange={handleStartDateChange}
-          renderInput={(inputProps) => <TextField {...inputProps} />}
-          value={filters.startDate}
-        />
-        <DatePicker
-          inputFormat="dd/MM/yyyy"
-          label="To"
-          onChange={handleEndDateChange}
-          renderInput={(inputProps) => <TextField {...inputProps} />}
-          value={filters.endDate}
-        /> */}
-      </Stack>
-      <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
-        From customer
+        Date Posted
       </Typography>
       <Box
         sx={{
@@ -190,31 +212,64 @@ export const PostListFilters = (props) => {
           // borderStyle: "solid",
           borderWidth: 1,
           mt: 2,
-          mb:2
+          mb: 2,
         }}
       >
-      
-          <FormGroup
-            sx={{
-              py: 1,
-              px: 1.5,
-            }}
-          >
-            {customers.map((customer) => (
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={filters.customer?.includes(customer)}
-                    onChange={handleCustomerChange}
-                  />
-                }
-                key={customer._id}
-                label={customer}
-                value={customer}
-              />
-            ))}
-          </FormGroup>
-    
+        <FormGroup
+          sx={{
+            py: 1,
+            px: 1.5,
+          }}
+        >
+          {date_posted.map((customer) => (
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={filters.customer?.includes(customer)}
+                  onChange={handleCustomerChange}
+                />
+              }
+              key={customer._id}
+              label={customer}
+              value={customer}
+            />
+          ))}
+        </FormGroup>
+      </Box>
+      <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
+        All Categories
+      </Typography>
+      <Box
+        sx={{
+          // backgroundColor: "background.default",
+          borderColor: "divider",
+          borderRadius: 1,
+          // borderStyle: "solid",
+          borderWidth: 1,
+          mt: 2,
+          mb: 2,
+        }}
+      >
+        <FormGroup
+          sx={{
+            py: 1,
+            px: 1.5,
+          }}
+        >
+          {customers.map((customer) => (
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={filters.customer?.includes(customer)}
+                  onChange={handleCustomerChange}
+                />
+              }
+              key={customer._id}
+              label={customer}
+              value={customer}
+            />
+          ))}
+        </FormGroup>
       </Box>
       {/* <FormControlLabel
         control={

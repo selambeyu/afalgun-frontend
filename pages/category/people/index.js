@@ -102,11 +102,10 @@ const InvoiceListInner = styled("div", {
 }));
 
 const tabs = [
-  { label: "General", value: "general" },
-  { label: "Billing", value: "billing" },
-  { label: "Team", value: "team" },
-  { label: "Notifications", value: "notifications" },
-  { label: "Security", value: "security" },
+  { label: "All", value: "all" },
+  { label: "Lost", value: "lost" },
+  { label: "Found", value: "found" },
+  
 ];
 
 const PostListInner = styled("div", {
@@ -220,7 +219,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Dashboard: Invoice List | Material Kit Pro</title>
+        <title>Category</title>
       </Head>
       <Box
         component="main"
@@ -255,10 +254,10 @@ const Page = () => {
                 ))}
               </Tabs>
 
-              {currentTab === "general" && <p>Generl</p>}
-              {currentTab === "billing" && <p>billing</p>}
-              {currentTab === "team" && <p>team</p>}
-              {currentTab === "notifications" && <p>notification</p>}
+              {currentTab === "all" && <p>All</p>}
+              {currentTab === "lost" && <p>Lost</p>}
+              {currentTab === "found" && <p>Found</p>}
+             
             </PostListInner>
           </Stack>
         </Container>
