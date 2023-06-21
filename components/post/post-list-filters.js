@@ -198,7 +198,7 @@ export const PostListFilters = (props) => {
             <MenuItem>61-80</MenuItem>
             <MenuItem>81-100</MenuItem>
           </Select>
-          {/* <FormHelperText>With label + helper text</FormHelperText> */}
+          <FormHelperText>Select the age range</FormHelperText>
         </FormControl>
       </Box>
       <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle2">
