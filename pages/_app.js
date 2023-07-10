@@ -7,12 +7,17 @@ import {
   SettingsProvider,
 } from "../context/settings-context";
 import {createTheme} from "../theme";
+import { QueryClient, QueryClientProvider } from "react-query";
+
 
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
+  const queryClient = new QueryClient();
 
   return (
     <AuthProvider>
+       <QueryClientProvider client={queryClient}>
+
       <SettingsProvider>
         <SettingsConsumer>
           {({ settings }) => (
@@ -28,6 +33,7 @@ function MyApp({ Component, pageProps }) {
           )}
         </SettingsConsumer>
       </SettingsProvider>
+      </QueryClientProvider>
     </AuthProvider>
   );
 }

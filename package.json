@@ -13,7 +13,9 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.5",
+    "@mui/x-date-pickers": "^6.8.0",
     "@popperjs/core": "^2.10.2",
+    "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "firebase": "^9.22.2",
     "formik": "^2.4.1",
@@ -21,6 +23,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.7",
+    "react-query": "^3.39.3",
+    "react-quill": "^2.0.0",
     "simplebar-react": "^3.2.4",
     "yup": "^1.2.0"
   },

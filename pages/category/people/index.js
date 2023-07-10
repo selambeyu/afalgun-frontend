@@ -12,6 +12,7 @@ import {
  
   Stack,
 } from "@mui/material";
+import AllItemCard from "../../../components/post/all/all-post-items";
 import { styled } from "@mui/material/styles";
 import { invoiceApi } from "../../api/invoice-api";
 import { MainLayout } from "../../../layouts/main-layout";
@@ -20,6 +21,8 @@ import { Filter as FilterIcon } from "../../../icons/filter";
 import { Plus as PlusIcon } from "../../../icons/plus";
 import { gtm } from "../../../lib/gtm";
 import { PostListFilters } from "../../../components/post/post-list-filters";
+import LostItemCard from "../../../components/post/lost/lost-post-item";
+import FoundItemCard from "../../../components/post/found/found-post-item";
 
 const applyFilters = (invoices, filters) =>
   invoices.filter((invoice) => {
@@ -73,33 +76,7 @@ const applyFilters = (invoices, filters) =>
 const applyPagination = (invoices, page, rowsPerPage) =>
   invoices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-const InvoiceListInner = styled("div", {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  flexGrow: 1,
-  overflow: "hidden",
-  paddingLeft: theme.spacing(3),
-  paddingRight: theme.spacing(3),
-  paddingTop: theme.spacing(8),
-  paddingBottom: theme.spacing(8),
-  zIndex: 1,
-  [theme.breakpoints.up("lg")]: {
-    marginLeft: -380,
-  },
-  transition: theme.transitions.create("margin", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    [theme.breakpoints.up("lg")]: {
-      marginLeft: 0,
-    },
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+
 
 const tabs = [
   { label: "All", value: "all" },
@@ -135,6 +112,8 @@ const PostListInner = styled("div", {
     }),
   }),
 }));
+
+
 
 const Page = () => {
   const isMounted = useMounted();
@@ -233,7 +212,7 @@ const Page = () => {
         }}
       >
         <Container maxWidth="lg">
-          <Stack direction="row">
+          <Stack direction="row" spacing={2}>
             <PostListFilters
               containerRef={rootRef}
               filters={filters}
@@ -254,9 +233,9 @@ const Page = () => {
                 ))}
               </Tabs>
 
-              {currentTab === "all" && <p>All</p>}
-              {currentTab === "lost" && <p>Lost</p>}
-              {currentTab === "found" && <p>Found</p>}
+              {currentTab === "all" && <AllItemCard />}
+              {currentTab === "lost" && <LostItemCard/>}
+              {currentTab === "found" && <FoundItemCard/>}
              
             </PostListInner>
           </Stack>

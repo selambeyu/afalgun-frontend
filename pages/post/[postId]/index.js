@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { format, subHours } from "date-fns";
-import Markdown from "react-markdown";
+import { useQuery, useQueryClient } from "react-query";
 import {
   Avatar,
   Box,
@@ -14,17 +15,17 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-// import { blogApi } from '../../__fake-api__/blog-api';
 import { blogApi } from "../../api/blog-api";
 
 import { BlogComment } from "../../../components/post/blog-comment";
 import { BlogCommentAdd } from "../../../components/post/blog-comment-add";
 import { ArrowLeft as ArrowLeftIcon } from "../../../icons/arrow-left";
 import { useMounted } from "../../../hooks/use-mounted";
-// import { MainLayout } from "../../../components/main-layout";
+import { getItemByIdApi } from "../../api/item-api-client";
 import { MainLayout } from "../../../layouts/main-layout";
 
 import { gtm } from "../../../lib/gtm";
+import { LoadingUI } from "../../../components/loadingUi";
 
 const comments = [
   {
@@ -51,37 +52,20 @@ const comments = [
   },
 ];
 
-const MarkdownWrapper = styled("div")(({ theme }) => ({
-  color: theme.palette.text.primary,
-  fontFamily: theme.typography.fontFamily,
-  "& h2": {
-    fontSize: theme.typography.h5.fontSize,
-    fontWeight: theme.typography.fontWeightBold,
-    lineHeight: theme.typography.h5.lineHeight,
-    marginBottom: theme.spacing(3),
-  },
-  "& h3": {
-    fontSize: theme.typography.h3.fontSize,
-    fontWeight: theme.typography.fontWeightBold,
-    lineHeight: theme.typography.h3.lineHeight,
-    marginBottom: theme.spacing(3),
-  },
-  "& p": {
-    fontSize: theme.typography.body1.fontSize,
-    lineHeight: theme.typography.body1.lineHeight,
-    marginBottom: theme.spacing(2),
-  },
-  "& li": {
-    fontSize: theme.typography.body1.fontSize,
-    lineHeight: theme.typography.body1.lineHeight,
-    marginBottom: theme.spacing(1),
-  },
-}));
-
 const PeoplePostDetails = () => {
   const isMounted = useMounted();
   const [post, setPost] = useState(null);
+  const router = useRouter();
+  const postId = router.query.postId;
+  const { data, isLoading, isError } = useQuery(
+    ["item"],
+    async () => await getItemByIdApi(postId)
+  );
 
+  console.log("data",data);
+
+
+  console.log("post id",postId)
   useEffect(() => {
     gtm.push({ event: "page_view" });
   }, []);
@@ -102,8 +86,11 @@ const PeoplePostDetails = () => {
     getPost();
   }, [getPost]);
 
-  if (!post) {
-    return null;
+  if (isLoading) {
+    return <LoadingUI />;
+  }
+  if (isError) {
+    return <p>Error Fetching post Item</p>;
   }
 
   return (
@@ -121,19 +108,19 @@ const PeoplePostDetails = () => {
         <Container maxWidth="md">
           <NextLink href="/" passHref>
             <Button
-              component="a"
+            
               startIcon={<ArrowLeftIcon fontSize="small" />}
             >
               Back
             </Button>
           </NextLink>
 
-          <Chip label={post.category} />
+          <Chip color={data.status =='lost' ? 'error' : 'primary'} label={data.status} />
           <Typography sx={{ mt: 3 }} variant="h3">
-            {post.title}
+            {data.name}
           </Typography>
           <Typography color="textSecondary" sx={{ mt: 3 }} variant="subtitle1">
-            {post.shortDescription}
+            {data.description}
           </Typography>
           <Box
             sx={{
@@ -145,8 +132,8 @@ const PeoplePostDetails = () => {
             <Avatar src={post.author.avatar} />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2">
-                By {post.author.name} •{" "}
-                {format(post.publishedAt, "MMMM d, yyyy")}
+                By {data.owner.name} •{" "}
+                {/* {format(post.createdAt, "MMMM d, yyyy")} */}
               </Typography>
               {/* <Typography color="textSecondary" variant="body2">
                 {`${post.readTime} read`}
@@ -183,11 +170,6 @@ const PeoplePostDetails = () => {
   );
 };
 
+PeoplePostDetails.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
-PeoplePostDetails.getLayout = (page) => (
-    <MainLayout>
-     {page}
-    </MainLayout>
-  );
-  
 export default PeoplePostDetails;

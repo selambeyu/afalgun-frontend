@@ -1,4 +1,4 @@
-import { useRef ,useState} from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -16,7 +16,10 @@ import {
   FormControl,
   InputLabel,
   Select,
-  useMediaQuery,MenuItem,FormHelperText, Menu
+  useMediaQuery,
+  MenuItem,
+  FormHelperText,
+  Menu,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -71,7 +74,7 @@ export const PostListFilters = (props) => {
     ...other
   } = props;
   const queryRef = useRef(null);
-  const [age, setAge] = useState('');
+  const [age, setAge] = useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -176,10 +179,10 @@ export const PostListFilters = (props) => {
           placeholder="Search by invoice number"
         /> */}
 
-        <FormControl >
+        <FormControl>
           <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
           <Select
-          fullWidth
+            fullWidth
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
             value={age}
@@ -192,11 +195,11 @@ export const PostListFilters = (props) => {
             <MenuItem value={10}>1-17</MenuItem>
             <MenuItem value={20}>18-25</MenuItem>
             <MenuItem value={30}>26-30</MenuItem>
-            <MenuItem >31-40</MenuItem>
-            <MenuItem>41-50</MenuItem>
-            <MenuItem>51-60</MenuItem>
-            <MenuItem>61-80</MenuItem>
-            <MenuItem>81-100</MenuItem>
+            <MenuItem value="31-40">31-40</MenuItem>
+            <MenuItem value="41-50">41-50</MenuItem>
+            <MenuItem value="51-60">51-60</MenuItem>
+            <MenuItem value="61-80">61-80</MenuItem>
+            <MenuItem value="81-100">81-100</MenuItem>
           </Select>
           <FormHelperText>Select the age range</FormHelperText>
         </FormControl>

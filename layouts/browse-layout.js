@@ -39,7 +39,7 @@ export const BrowseLayout = (props) => {
               {!isBase && (
                 <NextLink href="/browse" passHref>
                   <Button
-                    component="a"
+                   
                     startIcon={<ArrowLeftIcon fontSize="small" />}
                     sx={{ mb: 3 }}
                   >

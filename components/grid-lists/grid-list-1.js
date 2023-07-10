@@ -1,4 +1,5 @@
 import { format, subHours, subMinutes, subSeconds } from "date-fns";
+import { useQuery, useQueryClient } from "react-query";
 import {
   Avatar,
   Box,
@@ -10,14 +11,16 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { getItemsApi } from "../../pages/api/item-api-client";
 import { styled } from "@mui/material/styles";
+import { LoadingUI } from "../loadingUi";
 
 const now = new Date();
 
 const posts = [
   {
     id: "24b76cac9a1228cd949747080",
-    category:"people",
+    category: "people",
     author: {
       avatar: "/static/mock-images/avatars/avatar-jie_yan_song.png",
       name: "Jie Yan Song",
@@ -31,7 +34,7 @@ const posts = [
   },
   {
     id: "a9c19d0caf2caa91020aacd1f",
-    category:"people",
+    category: "people",
     author: {
       avatar: "/static/mock-images/avatars/avatar-omar_darboe.png",
       name: "Omar Darobe",
@@ -49,7 +52,7 @@ const posts = [
       avatar: "/static/mock-images/avatars/avatar-siegbert_gottfried.png",
       name: "Siegbert Gottfried",
     },
-    category:"people",
+    category: "people",
     type: "Lost",
     cover: "/static/mock-images/covers/cover_6.jpeg",
     publishedAt: subHours(subMinutes(subSeconds(now, 6), 46), 16).getTime(),
@@ -63,7 +66,7 @@ const posts = [
       avatar: "/static/mock-images/avatars/avatar-jie_yan_song.png",
       name: "Jie Yan Song",
     },
-    category:"people",
+    category: "people",
     type: "Lost",
     cover: "/static/mock-images/covers/cover_4.jpeg",
     publishedAt: subMinutes(subSeconds(now, 16), 45).getTime(),
@@ -77,7 +80,7 @@ const posts = [
       avatar: "/static/mock-images/avatars/avatar-omar_darboe.png",
       name: "Omar Darobe",
     },
-    category:"people",
+    category: "people",
     type: "Found",
     cover: "/static/mock-images/covers/cover_5.jpeg",
     publishedAt: subHours(subMinutes(subSeconds(now, 29), 51), 6).getTime(),
@@ -91,7 +94,7 @@ const posts = [
     //   avatar: "/static/mock-images/avatars/avatar-siegbert_gottfried.png",
     //   name: "Siegbert Gottfried",
     // },
-    category:"people",
+    category: "people",
     type: "Lost",
     cover: "/static/mock-images/covers/cover_6.jpeg",
     publishedAt: subHours(subMinutes(subSeconds(now, 6), 46), 16).getTime(),
@@ -106,7 +109,7 @@ const posts = [
     //   name: "Jie Yan Song",
     // },
     type: "Lost",
-    category:"people",
+    category: "people",
     cover: "/static/mock-images/covers/cover_4.jpeg",
     publishedAt: subMinutes(subSeconds(now, 16), 45).getTime(),
     readTime: "5 min",
@@ -119,7 +122,7 @@ const posts = [
     //   avatar: "/static/mock-images/avatars/avatar-omar_darboe.png",
     //   name: "Omar Darobe",
     // },
-    category:"people",
+    category: "people",
     type: "Found",
     cover: "/static/mock-images/covers/cover_5.jpeg",
     publishedAt: subHours(subMinutes(subSeconds(now, 29), 51), 6).getTime(),
@@ -134,7 +137,7 @@ const posts = [
     //   name: "Siegbert Gottfried",
     // },
     type: "Lost",
-    category:"people",
+    category: "people",
     cover: "/static/mock-images/covers/cover_6.jpeg",
     publishedAt: subHours(subMinutes(subSeconds(now, 6), 46), 16).getTime(),
     readTime: "3 min",
@@ -148,59 +151,80 @@ const BlogPostCardMediaWrapper = styled("div")({
   position: "relative",
 });
 
-export const GridList1 = () => (
-  <Box
-    sx={{
-      backgroundColor: "background.default",
-      minHeight: "100%",
-      p: 3,
-    }}
-  >
-   
-    <Grid container spacing={3}>
-      {posts.map((post) => (
-        <Grid item key={post.id} md={4} xs={12}>
-          <Card
-            sx={{
-              height: "100%",
-              p: 2,
-            }}
-          >
-            {/* <CardHeader title="Missing"></CardHeader> */}
-            <BlogPostCardMediaWrapper>
-              <CardMedia
-                image={post.cover}
-                sx={{
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  width: "100%",
-                }}
-              />
-            </BlogPostCardMediaWrapper>
-            <Box sx={{ mt: 2 }}>
-              <div>
-                <Chip label={post.type} variant="outlined" />
-              </div>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  my: 2,
-                }}
-              >
-                <Avatar src={post.author && post.author.avatar ? post.author.avatar : '' } />
-                <Box sx={{ ml: 2 }}>
-                  <Typography variant="subtitle2">
-                    {post.author && post.author.name ? post.author.name : ''}
-                  </Typography>
-                  <Typography color="textSecondary" variant="caption">
-                    {`${format(post.publishedAt, "dd MMM yy")} `}
-                  </Typography>
+export const GridList1 = () => {
+  const { data, isLoading, isError } = useQuery(
+    ["items"],
+    async () => await getItemsApi()
+  );
+
+if(isLoading){
+  return <LoadingUI/>
+}
+
+if(isError){
+  return <p>Error Loading Postes</p>
+}
+  console.log("what is data here", data)
+  return (
+    <Box
+      sx={{
+        backgroundColor: "background.default",
+        minHeight: "100%",
+        p: 3,
+      }}
+    >
+      <Grid container spacing={3}>
+        {data.items.map((post) => (
+          <Grid item key={post._id} md={4} xs={12}>
+            <Card
+              sx={{
+                height: "100%",
+                p: 2,
+              }}
+            >
+              {/* <CardHeader title="Missing"></CardHeader> */}
+              <BlogPostCardMediaWrapper>
+                <CardMedia
+                  image={post.cover}
+                  sx={{
+                    height: "100%",
+                    position: "absolute",
+                    top: 0,
+                    width: "100%",
+                  }}
+                />
+              </BlogPostCardMediaWrapper>
+              <Box sx={{ mt: 2 }}>
+                <div>
+                  <Chip color={post.status == 'lost' ? "error" : "primary"} label={post.status} variant="outlined" />
+                </div>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    my: 2,
+                  }}
+                >
+                  <Avatar
+                    src={
+                      post.author && post.author.avatar
+                        ? post.author.avatar
+                        : ""
+                    }
+                  />
+                  <Box sx={{ ml: 2 }}>
+                    <Typography variant="subtitle2">
+                      {post.owner && post.owner.name ? post.owner.name : ""}
+                    </Typography>
+                    <Typography color="textSecondary" variant="caption">
+                      {/* {`${format(post.createdAt, "dd MMM yy")} `} */}
+                    </Typography>
+                  </Box>
                 </Box>
-              </Box>
-              <Link href={`/post/${post.id}`}variant="h5">{post.title}</Link>
-              {/* <Typography
+                <Link href={`/post/${post._id}`} variant="h5">
+                  {post.name}
+                </Link>
+                {/* <Typography
                 color="textSecondary"
                 sx={{
                   height: 72,
@@ -214,10 +238,11 @@ export const GridList1 = () => (
               >
                 {post.shortDescription}
               </Typography> */}
-            </Box>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  </Box>
-);
+              </Box>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
